@@ -1,11 +1,20 @@
-<input type="text" [(ngModel)]="userName">
+
+<div class="activeusers">
+  <input type="text" [(ngModel)]="activeUsers" class="usernameinput">
+  <p class="usernamespan">Usuarios activos</p>
+</div>
+<div class="usernamebox">
+  <input type="text" [(ngModel)]="userName" class="usernameinput">
+  <p class="usernamespan">Cambia tu username</p>
+</div>
 <div class="chat-messages">
   <div class="chat-messages-show-container">
-    <ul class="chat-messages-show-list" id="message-list">
-      <li *ngFor="let chatMessage of chatMessages">
-        {{chatMessage.message}} <span>{{chatMessage.userName}}</span>
-      </li>
-    </ul>
+    <div class="chat-messages-show-list" id="message-list" *ngFor="let chatMessage of chatMessages" >
+      <div>
+        <div class="message" [ngClass]="{rigth: chatMessage.position == 'right'}" *ngIf="chatMessages">
+          {{chatMessage.message}} <br> <span class="username">{{chatMessage.userName}}</span></div>
+      </div>
+    </div>
   </div>
   <div class="chat-messages-create-container">
     <input class="chat-messages-create-input" type="text" [(ngModel)]="message">

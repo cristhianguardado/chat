@@ -29,6 +29,7 @@ export class ChatComponent implements OnInit {
 	message: string = '';
   userName = userNameRandom;
   chatMessages = [{}];
+  activeUsers: string = '0';
 
 
 	constructor(
@@ -47,16 +48,27 @@ export class ChatComponent implements OnInit {
       console.log(data)
       this.chatMessages.push(data)
 		}
-	 });
- }
+   });
+  this.socket.on('active-users', (data: string) => {
+    console.log(data)
+    this.activeUsers = data
+  });
+}
 
 	SendMessage() {
     var chatInput = {
       userName: this.userName,
-      message: this.message
+      message: this.message,
+      position: "right"
     }
+
+    var sendMessage = {
+      userName: this.userName,
+      message: this.message,
+    }
+
     this.chatMessages.push(chatInput)
-    this.socket.emit('message', chatInput);
+    this.socket.emit('message', sendMessage);
 
     this.chatService.postMessage(chatInput).subscribe((res) => {
       if (res) {

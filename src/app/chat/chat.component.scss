@@ -1,14 +1,17 @@
 .chat-messages-show-container{
-  background: #c3c3c3;
+  border-style: groove;
+  border-color: gray;
+  border-width: 1px;
   height: 400px;
   display: flex;
   flex-direction: column;
   overflow: auto;
+  margin-bottom: 10px;
 }
 .chat-messages-show-list {
-  list-style-type:none;
-  margin: 0;
-  padding: 0;
+  padding: 20px;
+  border-width: 1px;
+  margin: 5px 30px;
 }
 .chat-messages-create-container{
   background: #616161;
@@ -25,4 +28,31 @@
   height: 50px;
   margin: auto 40px;
   width: 100px;
+}
+
+.username {
+  font-size: 12px;
+  font-style: italic;
+}
+
+.rigth {
+  text-align: right;
+}
+
+.usernamebox {
+  text-align: end;
+  margin: 15px 15px;
+}
+
+.usernameinput {
+  border-style: none;
+  background: none;
+}
+
+.usernamespan {
+  font-size: 11px;
+}
+
+.activeusers {
+
 }
