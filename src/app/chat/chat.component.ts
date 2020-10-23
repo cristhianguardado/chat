@@ -14,7 +14,9 @@ function generaNss() {
 	return result;
 }
 
-var userNameRandom = generaNss();
+let userNameRandom = generaNss();
+
+const htmlList = document.getElementById("message-list")!
 
 @Component({
 	selector: 'app-chat',
@@ -24,7 +26,11 @@ var userNameRandom = generaNss();
 export class ChatComponent implements OnInit {
 	private socket: any;
 	message: string = '';
-	userName = userNameRandom;
+  userName = userNameRandom;
+  chatMessages = [{
+    userName: 'hola',
+    message: 'hola'
+  }];
 
 	constructor() {
 	}
@@ -36,28 +42,21 @@ export class ChatComponent implements OnInit {
 	setupSocketConnection() {
 		this.socket = io(SOCKET_ENDPOINT);
 		this.socket.on('message-broadcast', (data: string) => {
-		console.log("message received " + data)
+    console.log("message received ")
+    console.log(data)
 		if (data) {
-				const element = document.createElement('li');
-				element.innerHTML = data;
-				element.style.background = 'white';
-				element.style.padding =  '15px 30px';
-				element.style.margin = '10px';
-				//document.getElementById('message-list').appendChild(element);
-			}
+      this.chatMessages.push(data)
+		}
 	 });
  }
 
 	SendMessage() {
-		console.log("Send message " + this.message)
-		this.socket.emit('message', this.userName, this.message);
-		const element = document.createElement('li');
-		element.innerHTML = this.message;
-		element.style.background = 'white';
-		element.style.padding =  '15px 30px';
-		element.style.margin = '10px';
-		element.style.textAlign = 'right';
-		//document.getElementById('message-list').appendChild(element);
+    var chatInput = {
+      userName: this.userName,
+      message: this.message
+    }
+    this.chatMessages.push(chatInput)
+		this.socket.emit('message', chatInput);
 		this.message = '';
 	}
 
