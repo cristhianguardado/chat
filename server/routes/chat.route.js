@@ -5,6 +5,6 @@ const router = express.Router();
 module.exports = router;
 
 router.get('/getTotalUsers', messageCtrl.getAllUsers);
-router.post('/insertMessage', messageCtrl.insertMessage);
+router.post('/', messageCtrl.insertMessage);
 
 

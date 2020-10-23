@@ -1,15 +1,16 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { AuthService } from './chat.service';
+import { ChatService } from './chat.service';
 
-describe('AuthService', () => {
+describe('ChatService', () => {
+  let service: ChatService;
+
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [AuthService]
-    });
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(ChatService);
   });
 
-  it('should be created', inject([AuthService], (service: AuthService) => {
+  it('should be created', () => {
     expect(service).toBeTruthy();
-  }));
+  });
 });

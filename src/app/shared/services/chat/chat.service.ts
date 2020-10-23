@@ -1,57 +1,26 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
-import { Observable, BehaviorSubject, EMPTY } from 'rxjs';
-import { tap, pluck } from 'rxjs/operators';
+@Injectable({
+  providedIn: 'root'
+})
+export class ChatService {
 
-import { Message } from '@app/shared/interfaces';
+  saveMessage = environment.apiUrl + 'chat';
 
-
-interface AuthResponse {
-  id: string;
-  message: Message;
-}
-
-@Injectable({ providedIn: 'root' })
-export class AuthService {
-  private message$ = new BehaviorSubject<Message | null>(null);
-
-  constructor(private http: HttpClient) {}
+  httpOptions = {
+		headers: new HttpHeaders({
+			'Content-Type': 'application/json',
+		})
+	};
 
 
-  register(
-    fullname: string,
-    email: string,
-    password: string,
-    repeatPassword: string
-  ): Observable<Message> {
-    return this.http
-      .post<AuthResponse>('/api/auth/register', {
-        fullname,
-        email,
-        password,
-        repeatPassword,
-      })
-      .pipe(
-        tap(({ id, message }) => {
-          this.setMessage(message);
-        }),
-        pluck('message')
-      );
-  }
 
-  setMessage(message: Message | null): void {
-    if (message) {
-      message.isAdmin = message.roles.includes('admin');
-    }
+  constructor(private http: HttpClient ) { }
 
-    this.message$.next(message);
-    window.message = message;
-  }
-
-  getMessage(): Observable<Message | null> {
-    return this.message$.asObservable();
-  }
-
+  postMessage(form: Object) {
+		return this.http.post(this.saveMessage, JSON.stringify(form), this.httpOptions)
+	}
 
 }

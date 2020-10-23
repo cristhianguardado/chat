@@ -11,13 +11,13 @@ module.exports = {
 function insertMessage(req, res, next) {
   var body = req.body;
   const data = {
-    nickName: body.nickName,
+    userName: body.userName,
     message: body.message,
   };
-  const newNotification = new Model(data);
-  newNotification.save()
-    .then(notification => {
-      res.json(notification)
+  const newMessage = new messageModel(data);
+  newMessage.save()
+    .then(message => {
+      res.json(message)
     })
     .catch(e => res.status(500).send(e));
 

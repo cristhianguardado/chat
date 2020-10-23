@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { string } from 'joi';
 import * as io from 'socket.io-client'
+import { ChatService } from '../shared/services/chat/chat.service'
 
 const SOCKET_ENDPOINT = 'localhost:4040';
 function generaNss() {
@@ -27,13 +28,12 @@ export class ChatComponent implements OnInit {
 	private socket: any;
 	message: string = '';
   userName = userNameRandom;
-  chatMessages = [{
-    userName: '',
-    message: ''
-  }];
+  chatMessages = [{}];
 
-	constructor() {
-	}
+
+	constructor(
+    private chatService: ChatService
+  ) {	}
 
 	ngOnInit(): void {
 		this.setupSocketConnection();
@@ -42,14 +42,10 @@ export class ChatComponent implements OnInit {
 	setupSocketConnection() {
 		this.socket = io(SOCKET_ENDPOINT);
 		this.socket.on('message-broadcast', (data: string) => {
-    console.log("message received ")
-    console.log(data)
 		if (data) {
-      var chatOutput = {
-        userName: data.userName,
-        message: data.message
-      }
-      this.chatMessages.push(chatOutput)
+      console.log("message received ")
+      console.log(data)
+      this.chatMessages.push(data)
 		}
 	 });
  }
@@ -60,7 +56,14 @@ export class ChatComponent implements OnInit {
       message: this.message
     }
     this.chatMessages.push(chatInput)
-		this.socket.emit('message', chatInput);
+    this.socket.emit('message', chatInput);
+
+    this.chatService.postMessage(chatInput).subscribe((res) => {
+      if (res) {
+        console.log(res)
+      }
+    });
+
 		this.message = '';
 	}
 
