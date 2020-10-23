@@ -5,7 +5,7 @@ import * as io from 'socket.io-client'
 const SOCKET_ENDPOINT = 'localhost:4040';
 function generaNss() {
 	let result = '';
-	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	const characters = 'abcdefghijklmnopqrstuvwxyz';
 	const charactersLength = characters.length;
 	for (let i = 0; i < charactersLength; i++) {
 			result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -28,8 +28,8 @@ export class ChatComponent implements OnInit {
 	message: string = '';
   userName = userNameRandom;
   chatMessages = [{
-    userName: 'hola',
-    message: 'hola'
+    userName: '',
+    message: ''
   }];
 
 	constructor() {
@@ -45,7 +45,11 @@ export class ChatComponent implements OnInit {
     console.log("message received ")
     console.log(data)
 		if (data) {
-      this.chatMessages.push(data)
+      var chatOutput = {
+        userName: data.userName,
+        message: data.message
+      }
+      this.chatMessages.push(chatOutput)
 		}
 	 });
  }
