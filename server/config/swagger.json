@@ -13,12 +13,12 @@
     "basePath": "/api/",
     "tags": [
       {
-        "name": "Users",
-        "description": "API for users in the system"
+        "name": "Messages",
+        "description": "API for save massages in DB"
       },
       {
-        "name": "Auth",
-        "description": "API for auth in the system"
+        "name": "ActiveUsers",
+        "description": "API for active users"
       }
     ],
     "schemes": [
@@ -30,30 +30,23 @@
     "produces": [
       "application/json"
     ],
-    "securityDefinitions": {
-      "AuthHeader": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "Authorization"
-      }
-    },
     "paths": {
-      "/auth/login": {
+      "/chat": {
         "post": {
-          "tags": ["Auth"],
-          "description": "Login to the system",
+          "tags": ["Messages"],
+          "description": "Save messages in DB",
         "parameters": [{
-          "name": "auth",
+          "name": "Messages",
           "in": "body",
-          "description": "User auth details",
+          "description": "Message save",
           "schema": {
             "type": "object",
-            "required": ["email", "password"],
+            "required": ["userName", "message"],
             "properties": {
-              "email": {
+              "userName": {
                 "type": "string"
               },
-              "password": {
+              "message": {
                 "type": "string"
               }
             }
@@ -64,7 +57,24 @@
         ],
         "responses": {
           "200": {
-            "description": "User is loggedin",
+            "description": "Message save",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+      },
+      "/getTotalUsers": {
+        "get": {
+          "tags": ["ActiveUsers"],
+          "description": "Get ActiveUsers",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "{total: 12}",
             "schema": {
               "$ref": "#/definitions/User"
             }
@@ -74,48 +84,26 @@
       }
     },
     "definitions": {
-      "User": {
+      "Message": {
         "required": [
-          "email",
-          "fullname"
+          "userName",
+          "message"
         ],
         "properties": {
           "_id": {
             "type": "string",
             "uniqueItems": true
           },
-          "email": {
-            "type": "string",
-            "uniqueItems": true
+          "userName": {
+            "type": "string"
           },
-          "fullname": {
+          "message": {
             "type": "string"
           },
           "createdAt": {
             "type": "string"
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
           }
         }
-      },
-      "Users": {
-        "type": "array",
-        "$ref": "#/definitions/User"
-      },
-      "Auth": {
-        "type": "object",
-        "properties": [{
-          "token": {
-            "type": "string"
-          },
-          "user": {
-            "$ref": "#/definitions/User"
-          }
-        }]
       }
   }
 }

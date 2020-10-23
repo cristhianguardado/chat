@@ -4,7 +4,4 @@ const router = express.Router();
 
 module.exports = router;
 
-router.get('/getTotalUsers', messageCtrl.getAllUsers);
 router.post('/', messageCtrl.insertMessage);
-
-
