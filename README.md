@@ -3,7 +3,6 @@
 Chat based in a MEAN app
 
 ### Tech
-
 * [Mongodb]
 * [Express] 
 * [Angular]
@@ -17,19 +16,24 @@ $ npm install
 $ cp .env.example .env
 $ npm start (for development)
 ```
+`http://localhost:4040`
+
 ### Docker
 
 ```sh
 $ cp .env.example .env
 $ docker-compose up -d
 ```
+`http://localhost:4040`
 
 ### Swagger
+
 ```sh
 $ npm install
 $ cp .env.example .env
 $ npm start (for development)
 ```
+`http://localhost:4040/api-docs/`
 
 
    [Node.js]: <http://nodejs.org>
