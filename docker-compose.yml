@@ -7,12 +7,23 @@ services:
     expose:
       - 4040
     environment:
-      NODE_ENV: production
-      SERVER_PORT: 4040
-      MONGO_HOST: mongodb://mongo/odmp
+      - APP_ID=chat
+      - LOG_LEVEL=debug
+      - MONGO_HOST=dummy-db
+      - MONGO_PORT=27017
+      - MONGO_DB=chat
+      - PORT=4040
+      - REQUEST_LIMIT=100kb
+      - SWAGGER_API_SPEC=/spec
     restart: always
     depends_on:
-      - mongo
-
-  mongo:
+      - dummy-db
+  dummy-db:
     image: mongo:3.6
+    ports:
+      - '27017'
+    volumes:
+      - dummy-mongodata:/data/db
+volumes:
+  dummy-mongodata:
+
